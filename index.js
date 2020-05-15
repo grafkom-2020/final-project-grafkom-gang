@@ -51,4 +51,9 @@ render = function() {
     requestAnimationFrame( render );
 };
 
+window.onresize = function() {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+}
 window.onload = initScene();
