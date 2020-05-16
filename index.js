@@ -3,7 +3,7 @@
 Physijs.scripts.worker = '/lib/js/physijs_worker.js';
 Physijs.scripts.ammo = '/lib/js/ammo.js';
 
-var initScene, render, objloader, texloader, renderer, scene, camera;
+var initScene, render, objloader, texloader, renderer, scene, camera, player;
 
 function populateScene(scene) {
 	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
@@ -94,6 +94,10 @@ initScene = function() {
     addKeyToListen("KeyA");
     addKeyToListen("KeyS");
     addKeyToListen("KeyD");
+
+    renderer.domElement.requestPointerLock();
+    player = new Player(camera);
+    scene.add(player.getObject());
     
     requestAnimationFrame( render );
 };
@@ -109,17 +113,7 @@ render = function() {
 
 // game logic
 function update(){
-    if(isKey("KeyA")){
-        console.log("A is held");
-    }
-    
-    if(isKeyDown("KeyD")){
-        console.log("D is pressed");
-    }
-
-    if(isKeyUp("KeyS")){
-        console.log("S is released");
-    }
+    player.update();
 }
 
 window.onresize = function() {
