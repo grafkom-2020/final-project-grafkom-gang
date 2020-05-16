@@ -41,13 +41,33 @@ initScene = function() {
     });
     scene.add( box );
     scene.add( plane );
+
+    listenTo(document);
+    addKeyToListen("KeyW");
+    addKeyToListen("KeyA");
+    addKeyToListen("KeyS");
+    addKeyToListen("KeyD");
     
     requestAnimationFrame( render );
 };
 
 render = function() {
+
     scene.simulate(); // run physics
     renderer.render( scene, camera); // render the scene
+    if(isKey("KeyA")){
+        console.log("A is held");
+    }
+    
+    if(isKeyDown("KeyD")){
+        console.log("D is pressed");
+    }
+
+    if(isKeyUp("KeyS")){
+        console.log("S is released");
+    }
+
+    refreshInput();
     requestAnimationFrame( render );
 };
 
