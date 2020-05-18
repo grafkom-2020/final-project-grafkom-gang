@@ -39,9 +39,35 @@ function populateScene() {
 		metal_metal.wrapS = THREE.RepeatWrapping;
 		metal_metal.wrapT = THREE.RepeatWrapping;
 		metal_metal.repeat.set(4, 4);
+		let sheetmetal_texture = texloader.load('/assets/textures/Metal_Grill_002_Color.jpg');
+		sheetmetal_texture.wrapS = THREE.RepeatWrapping;
+		sheetmetal_texture.wrapT = THREE.RepeatWrapping;
+		sheetmetal_texture.repeat.set(4, 4);
+		let sheetmetal_normal = texloader.load('/assets/textures/Metal_Grill_002_Normal.jpg');
+		sheetmetal_normal.wrapS = THREE.RepeatWrapping;
+		sheetmetal_normal.wrapT = THREE.RepeatWrapping;
+		sheetmetal_normal.repeat.set(4, 4);
+		let sheetmetal_ao = texloader.load('/assets/textures/Metal_Grill_002_AO.jpg');
+		sheetmetal_ao.wrapS = THREE.RepeatWrapping;
+		sheetmetal_ao.wrapT = THREE.RepeatWrapping;
+		sheetmetal_ao.repeat.set(4, 4);
+		let granite_texture = texloader.load('/assets/textures/speckled_countertop1_Color.png');
+		granite_texture.wrapS = THREE.RepeatWrapping;
+		granite_texture.wrapT = THREE.RepeatWrapping;
+		granite_texture.repeat.set(4, 4);
+		let granite_ao = texloader.load('/assets/textures/speckled_countertop1_AO.png');
+		granite_ao.wrapS = THREE.RepeatWrapping;
+		granite_ao.wrapT = THREE.RepeatWrapping;
+		granite_ao.repeat.set(4, 4);
+		let granite_roughness = texloader.load('/assets/textures/speckled_countertop1_Roughness.png');
+		granite_roughness.wrapS = THREE.RepeatWrapping;
+		granite_roughness.wrapT = THREE.RepeatWrapping;
+		granite_roughness.repeat.set(4, 4);
 		let concrete_material = new THREE.MeshStandardMaterial({map: concrete_texture, normalMap: concrete_normal});
 		let light_material = new THREE.MeshStandardMaterial({color: 0xFFFFFF, emissive: 0xFFFFFF});
 		let metal_material = new THREE.MeshStandardMaterial({map: metal_texture, normalMap: metal_normal, metalnessMap: metal_metal});
+		let sheetmetal_material = new THREE.MeshStandardMaterial({map: sheetmetal_texture, normalMap: sheetmetal_normal, aoMap: sheetmetal_ao});
+		let granite_material = new THREE.MeshStandardMaterial({map: granite_texture, aoMap: granite_ao, roughnessMap: granite_roughness});
 		gltf.scene.children[0].material = concrete_material;
 		gltf.scene.children[1].material = concrete_material;
 		gltf.scene.children[2].material = light_material;
@@ -51,6 +77,11 @@ function populateScene() {
 		gltf.scene.children[6].material = metal_material;
 		gltf.scene.children[7].material = metal_material;
 		gltf.scene.children[8].material = metal_material;
+		gltf.scene.children[9].material = granite_material;
+		gltf.scene.children[10].material = granite_material;
+		gltf.scene.children[11].material = sheetmetal_material;
+		gltf.scene.children[12].material = granite_material;
+		gltf.scene.children[13].material = granite_material;
 
 		gltf.scene.children[1].castShadow = true;
 		gltf.scene.children[3].castShadow = true;
@@ -60,19 +91,12 @@ function populateScene() {
 		gltf.scene.children[8].castShadow = true;
 		for (let i = 0; i < gltf.scene.children.length; i++) gltf.scene.children[i].receiveShadow = true;
 		scene.add(gltf.scene);
-		
+		console.log(gltf.scene.children);
+
 		// interactables.push(gltf.scene.children[4]);
-		interactables.push({
-			object: gltf.scene.children[5],
-			state: -1,
-			closed: [0, 0, 0],
-			opened: [0, -110, 0]
-		});
-		interactables.push({
-			object: gltf.scene.children[6],
-			state: -1,
-			closed: [0, 0, 0],
-			opened: [0, 110, 0]
-		});
+		interactables.push({object: gltf.scene.children[5], state: -1, opened: [0, -110, 0]});
+		interactables.push({object: gltf.scene.children[6], state: -1, opened: [0, 110, 0]});
+		interactables.push({object: gltf.scene.children[9], state: -1, opened: [80, 0, 0]});
+		interactables.push({object: gltf.scene.children[10], state: -1, opened: [80, 0, 0]});
     });
 }
