@@ -30,6 +30,13 @@ initScene = function() {
     renderer.domElement.requestPointerLock();
     player = new Player(camera);
     scene.add(player.getObject());
+
+    document.addEventListener('click', function(){
+        player.activate();
+    },false);
+    document.addEventListener('escape', function(){
+        player.deactivate();
+    },false);
     
     requestAnimationFrame( render );
 };
@@ -49,8 +56,8 @@ function update(){
 }
 
 window.onresize = function() {
-	this.camera.aspect = window.innerWidth / window.innerHeight;
-	this.camera.updateProjectionMatrix();
-	this.renderer.setSize(window.innerWidth, window.innerHeight);
+	camera.aspect = (window.innerWidth / window.innerHeight);
+	camera.updateProjectionMatrix();
+	renderer.setSize(window.innerWidth, window.innerHeight);
 }
 window.onload = initScene();
