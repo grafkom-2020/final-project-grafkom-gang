@@ -1,8 +1,9 @@
-// STATE: negative -> opening/closed, 1 -> final, 2-101 -> animation
+// STATE: negative -> opening/closed, 1 -> final, 2-(101/speed) -> animation
+let interactSpeed = 3;
 let interactables = [];
 
 function populateScene() {
-	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
 	camera.position.set(0, 1.7, 6);
 	scene.add(camera);
 
@@ -59,15 +60,15 @@ function populateScene() {
 		// interactables.push(gltf.scene.children[4]);
 		interactables.push({
 			object: gltf.scene.children[5],
-			state: -2,
+			state: -1,
 			closed: [0, 0, 0],
-			opened: [0, 110, 0]
+			opened: [0, -110, 0]
 		});
 		interactables.push({
 			object: gltf.scene.children[6],
-			state: -2,
+			state: -1,
 			closed: [0, 0, 0],
-			opened: [0, -110, 0]
+			opened: [0, 110, 0]
 		});
     });
 }

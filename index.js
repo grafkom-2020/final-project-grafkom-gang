@@ -3,9 +3,9 @@
 Physijs.scripts.worker = '/lib/js/physijs_worker.js';
 Physijs.scripts.ammo = '/lib/js/ammo.js';
 
-var initScene, render, objloader, texloader, renderer, player;
+var initScene, render, objloader, texloader, renderer, player, raycaster;
 
-let scene, camera;
+let scene, camera, raycasts;
 
 initScene = function() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -14,7 +14,8 @@ initScene = function() {
 	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 	document.getElementById( 'viewport' ).appendChild( renderer.domElement );
 	objloader = new THREE.GLTFLoader();
-	texloader = new THREE.TextureLoader();
+    texloader = new THREE.TextureLoader();
+    raycaster = new THREE.Raycaster();
 	
 	scene = new Physijs.Scene();
 	populateScene();
@@ -26,6 +27,7 @@ initScene = function() {
     addKeyToListen("KeyA");
     addKeyToListen("KeyS");
     addKeyToListen("KeyD");
+    addMouseButtonToListen(0);
 
     renderer.domElement.requestPointerLock();
     player = new Player(camera);
@@ -42,7 +44,8 @@ initScene = function() {
 };
 
 render = function() {
-
+    raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
+    raycasts = scene.children[3] == null ? [] : raycaster.intersectObjects(scene.children[3].children);
     scene.simulate(); // run physics
     update();
     renderer.render(scene, camera); // render the scene
@@ -55,17 +58,27 @@ function update(){
     for (let obj of interactables) {
         if (Math.abs(obj.state) > 1) {
             if (obj.state < 0) { // CLOSING
-                obj.object.geometry.rotateX(obj.closed[0] - obj.opened[0] / 100 / 180 * Math.PI);
-                obj.object.geometry.rotateY(obj.closed[1] - obj.opened[1] / 100 / 180 * Math.PI);
-                obj.object.geometry.rotateZ(obj.closed[2] - obj.opened[2] / 100 / 180 * Math.PI);
+                obj.object.rotation.x -= obj.closed[0] - obj.opened[0] * interactSpeed / 18000 * Math.PI;
+                obj.object.rotation.y -= obj.closed[1] - obj.opened[1] * interactSpeed / 18000 * Math.PI;
+                obj.object.rotation.z -= obj.closed[2] - obj.opened[2] * interactSpeed / 18000 * Math.PI;
                 obj.state--;
-                if (obj.state < -101) obj.state = 1;
+                if (obj.state < -101 / interactSpeed) obj.state = 1;
             } else {
-                obj.object.geometry.rotateX(obj.opened[0] - obj.closed[0] / 100 / 180 * Math.PI);
-                obj.object.geometry.rotateY(obj.opened[1] - obj.closed[1] / 100 / 180 * Math.PI);
-                obj.object.geometry.rotateZ(obj.opened[2] - obj.closed[2] / 100 / 180 * Math.PI);
+                obj.object.rotation.x += obj.closed[0] - obj.opened[0] * interactSpeed / 18000 * Math.PI;
+                obj.object.rotation.y += obj.closed[1] - obj.opened[1] * interactSpeed / 18000 * Math.PI;
+                obj.object.rotation.z += obj.closed[2] - obj.opened[2] * interactSpeed / 18000 * Math.PI;
                 obj.state++;
-                if (obj.state > 101) obj.state = -1;
+                if (obj.state > 101 / interactSpeed) obj.state = -1;
+            }
+        } else {
+            if (obj.state == -1) {
+                obj.object.rotation.x = obj.closed[0] / 180 * Math.PI;
+                obj.object.rotation.y = obj.closed[1] / 180 * Math.PI;
+                obj.object.rotation.z = obj.closed[2] / 180 * Math.PI;
+            } else {
+                obj.object.rotation.x = obj.opened[0] / 180 * Math.PI;
+                obj.object.rotation.y = obj.opened[1] / 180 * Math.PI;
+                obj.object.rotation.z = obj.opened[2] / 180 * Math.PI;
             }
         }
     }

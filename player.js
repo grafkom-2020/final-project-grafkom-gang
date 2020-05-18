@@ -36,6 +36,16 @@ function Player (_camera){
             deltaRight += speed;
         }
 
+        if (isButtonDown(0)) {
+            if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
+                for (let o of interactables) {
+                    if (o.object == raycasts[0].object) {
+                        o.state *= 2;
+                    }
+                }
+            }
+        }
+
         control.moveForward(deltaFordward);
         control.moveRight(deltaRight);
     }
