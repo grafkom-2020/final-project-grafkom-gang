@@ -29,13 +29,12 @@ initScene = function() {
 
     renderer.domElement.requestPointerLock();
 
-    var capsule = new Physijs.CapsuleMesh(
+    var capsule = new Physijs.CylinderMesh(
         new THREE.CylinderGeometry(0.3,0.3,2,32), 
         new THREE.MeshBasicMaterial({ color: 0x888888 }),
     );
     capsule.name = "Player Mesh";
-    // capsule.position.y += 2;
-    // capsule.__dirtyPosition = true;
+    capsule.position.y += 4;
     scene.add(capsule);
 
     player = new Player(camera);
@@ -53,15 +52,8 @@ initScene = function() {
         new THREE.MeshBasicMaterial({ color: 0x888888 }),
         0
     );
-    // box.addEventListener( 'collision', function( other_object, relative_velocity, relative_rotation, contact_normal ) {
-    //     console.log(other_object);
-    //     console.log(relative_velocity);
-    //     console.log(relative_rotation);
-    //     console.log(contact_normal);
-    // });
+    box.position.set(0,-1.5,0);
     scene.add(box);
-    // box.position.set(0,-1.5,0);
-    // box.__dirtyPosition = true;
     requestAnimationFrame( render );
 };
 
