@@ -1,3 +1,6 @@
+// STATE: negative -> opening/closed, 1 -> final, 2-101 -> animation
+let interactables = [];
+
 function populateScene() {
 	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 	camera.position.set(0, 1.7, 6);
@@ -52,5 +55,19 @@ function populateScene() {
 		gltf.scene.children[8].castShadow = true;
 		for (let i = 0; i < gltf.scene.children.length; i++) gltf.scene.children[i].receiveShadow = true;
 		scene.add(gltf.scene);
+		
+		// interactables.push(gltf.scene.children[4]);
+		interactables.push({
+			object: gltf.scene.children[5],
+			state: -2,
+			closed: [0, 0, 0],
+			opened: [0, 110, 0]
+		});
+		interactables.push({
+			object: gltf.scene.children[6],
+			state: -2,
+			closed: [0, 0, 0],
+			opened: [0, -110, 0]
+		});
     });
 }

@@ -52,6 +52,23 @@ render = function() {
 
 // game logic
 function update(){
+    for (let obj of interactables) {
+        if (Math.abs(obj.state) > 1) {
+            if (obj.state < 0) { // CLOSING
+                obj.object.geometry.rotateX(obj.closed[0] - obj.opened[0] / 100 / 180 * Math.PI);
+                obj.object.geometry.rotateY(obj.closed[1] - obj.opened[1] / 100 / 180 * Math.PI);
+                obj.object.geometry.rotateZ(obj.closed[2] - obj.opened[2] / 100 / 180 * Math.PI);
+                obj.state--;
+                if (obj.state < -101) obj.state = 1;
+            } else {
+                obj.object.geometry.rotateX(obj.opened[0] - obj.closed[0] / 100 / 180 * Math.PI);
+                obj.object.geometry.rotateY(obj.opened[1] - obj.closed[1] / 100 / 180 * Math.PI);
+                obj.object.geometry.rotateZ(obj.opened[2] - obj.closed[2] / 100 / 180 * Math.PI);
+                obj.state++;
+                if (obj.state > 101) obj.state = -1;
+            }
+        }
+    }
     player.update();
 }
 
