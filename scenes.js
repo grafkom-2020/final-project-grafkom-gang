@@ -1,18 +1,14 @@
-function populateScenes() {
-    for (let i = 0; i < scenes.length; i++) {
-        cameras[i] = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-        cameras[i].position.set(0, 1.7, 6);
-		scenes[i].add(cameras[i]);
-    }
-
-    // SCENE #0
+function populateScene() {
+	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+	camera.position.set(0, 1.7, 6);
+	scene.add(camera);
 
 	let ambient = new THREE.AmbientLight(0xFFFFFF, 0.1);
-	scenes[0].add(ambient);
+	scene.add(ambient);
 	let light = new THREE.PointLight(0xFFFFFF, 1, 20, 2);
 	light.position.set(0, 2.1, 0);
 	light.castShadow = true;
-	scenes[0].add(light);
+	scene.add(light);
 
 	objloader.load('/assets/models/scene.glb', (gltf) => {
 		let concrete_texture = texloader.load('/assets/textures/Plaster003_2K_Color.jpg');
@@ -55,11 +51,6 @@ function populateScenes() {
 		gltf.scene.children[7].castShadow = true;
 		gltf.scene.children[8].castShadow = true;
 		for (let i = 0; i < gltf.scene.children.length; i++) gltf.scene.children[i].receiveShadow = true;
-		scenes[0].add(gltf.scene);
+		scene.add(gltf.scene);
     });
-    
-    // SCENE #1
-	let sphere = new THREE.Mesh(new THREE.SphereGeometry(0.1));
-	sphere.position.set(0, 2.55, 0);
-	scenes[1].add(sphere);
 }
