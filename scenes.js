@@ -6,6 +6,10 @@ function populateScene() {
 	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
 	camera.position.set(0, 1.7, 6);
 	scene.add(camera);
+	let crosshairTexture = texloader.load('/assets/textures/Crosshair.png');
+	let crosshair = new THREE.Mesh(new THREE.PlaneGeometry(0.004, 0.004), new THREE.MeshBasicMaterial({color: 0xFFFFFF, map: crosshairTexture, transparent: true}));
+	crosshair.position.set(0, 0, -0.1);
+	camera.add(crosshair);
 
 	let ambient = new THREE.AmbientLight(0xFFFFFF, 0.1);
 	scene.add(ambient);

@@ -46,6 +46,18 @@ initScene = function() {
 render = function() {
     raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
     raycasts = scene.children[3] == null ? [] : raycaster.intersectObjects(scene.children[3].children);
+    let ada = false;
+    for (let obj of interactables) {
+        if (raycasts[0] != null && raycasts[0].distance <= 2.5 && raycasts[0].object == obj.object) ada = true;
+    }
+    if (ada) {
+        scene.children[2].children[0].material.opacity = 1;
+        scene.children[2].children[0].scale.set(1, 1, 1);
+    } else {
+        scene.children[2].children[0].material.opacity = 0.3;
+        scene.children[2].children[0].scale.set(0.8, 0.8, 0.8);
+    }
+
     scene.simulate(); // run physics
     update();
     renderer.render(scene, camera); // render the scene
