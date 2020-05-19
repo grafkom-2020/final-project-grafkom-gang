@@ -76,7 +76,7 @@ function Player (_camera, _scene){
         raycastCol.set(pos,dir);
         for(i=0;i < accuracy; i++){
             raycastColArr = _scene.children[3] == null ? [] : raycastCol.intersectObjects(_scene.children[3].children);
-            if (Array.isArray(raycastColArr) && raycastColArr.length){
+            if (Array.isArray(raycastColArr) && raycastColArr.length && raycastColArr[0].distance <= 2){
                 if(deltaForward > 0){
                     deltaForward = 0;
                 }
@@ -89,7 +89,7 @@ function Player (_camera, _scene){
         raycastCol.set(pos,dir);
         for(i=0;i < accuracy; i++){
             raycastColArr = _scene.children[3] == null ? [] : raycastCol.intersectObjects(_scene.children[3].children);
-            if (Array.isArray(raycastColArr) && raycastColArr.length){
+            if (Array.isArray(raycastColArr) && raycastColArr.length && raycastColArr[0].distance <= 2){
                 if(deltaRight < 0){
                     deltaRight = 0;
                 }
@@ -102,7 +102,7 @@ function Player (_camera, _scene){
         for(i=0;i < accuracy; i++){
             raycastCol.set(pos,dir);
             raycastColArr = _scene.children[3] == null ? [] : raycastCol.intersectObjects(_scene.children[3].children);
-            if (Array.isArray(raycastColArr) && raycastColArr.length){
+            if (Array.isArray(raycastColArr) && raycastColArr.length && raycastColArr[0].distance <= 2){
                 if(deltaForward < 0)
                 deltaForward = 0;
             }
@@ -114,7 +114,7 @@ function Player (_camera, _scene){
         for(i=0;i < accuracy; i++){
             raycastCol.set(pos,dir);
             raycastColArr = _scene.children[3] == null ? [] : raycastCol.intersectObjects(_scene.children[3].children);
-            if (Array.isArray(raycastColArr) && raycastColArr.length){
+            if (Array.isArray(raycastColArr) && raycastColArr.length && raycastColArr[0].distance <= 2){
                 if(deltaRight > 0)
                 deltaRight = 0;
             }
