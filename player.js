@@ -38,7 +38,6 @@ function Player (_camera, _scene){
 		if(isKey("KeyD")){
 			deltaRight += speed;
 		}
-
 		if (isButtonDown(0)) {
 			if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
 				for (let o of interactables) {

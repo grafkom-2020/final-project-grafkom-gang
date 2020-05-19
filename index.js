@@ -35,10 +35,7 @@ initScene = function() {
     scene.add(player.getObject());
 
     document.addEventListener('click', function(){
-        player.activate();
-    },false);
-    document.addEventListener('escape', function(){
-        player.deactivate();
+        player.control.lock();
     },false);
     
     requestAnimationFrame( render );
