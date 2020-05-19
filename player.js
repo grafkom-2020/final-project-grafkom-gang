@@ -15,6 +15,7 @@ function Player (_camera, _scene){
 
     let beepAudio = new Audio("/assets/audio/beep-07.wav");
     let walkAudio = new Audio("/assets/audio/FOOTSTEPS (A) Walking Loop 01 Shorter.wav");
+    let doorOpenAudio = new Audio("/assets/audio/open_door.wav");
     walkAudio.volume = 0.2;
 
     let isCrouched = false;
