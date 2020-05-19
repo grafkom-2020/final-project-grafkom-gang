@@ -76,6 +76,34 @@
 
 			cursor: pointer;
 		}
+		#winpanel {
+			width: 100%;
+			height: 100%;
+
+			display: -webkit-box;
+			display: -moz-box;
+			display: box;
+
+			-webkit-box-orient: horizontal;
+			-moz-box-orient: horizontal;
+			box-orient: horizontal;
+
+			-webkit-box-pack: center;
+			-moz-box-pack: center;
+			box-pack: center;
+
+			-webkit-box-align: center;
+			-moz-box-align: center;
+			box-align: center;
+
+			color: #ffffff;
+			text-align: center;
+			font-family: Arial;
+			font-size: 14px;
+			line-height: 24px;
+
+			cursor: pointer;
+		}	
 	</style>
 </head>
 
@@ -88,6 +116,10 @@
 			Toggle Crouch: LEFTCONTROL<br/>
 			Look : MOUSE<br/>
 			Interact : MOUSE1
+		</div>
+		<div id="winpanel">
+			<span style="font-size:36px">You've escaped</span><br/>
+			Click to play again
 		</div>
 	</div>
 	<div id="viewport"></div>

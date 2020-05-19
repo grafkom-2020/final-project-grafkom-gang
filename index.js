@@ -4,6 +4,8 @@ let scene, camera, raycasts;
 
 var blocker = document.getElementById( 'blocker' );
 var instructions = document.getElementById( 'instructions' );
+var winpanel = document.getElementById('winpanel');
+var overlay = document.getElementById('overlay');
 
 initScene = function() {
 	renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -33,6 +35,7 @@ initScene = function() {
 	renderer.domElement.requestPointerLock();
 	player = new Player(camera,scene);
 	scene.add(player.getObject());
+	overlay.style.display = 'none';
 
 	instructions.addEventListener('click', function(){
 		player.control.lock();
@@ -42,6 +45,7 @@ initScene = function() {
 
 		instructions.style.display = 'none';
 		blocker.style.display = 'none';
+		overlay.style.display = '';
 
 	} );
 
@@ -49,6 +53,7 @@ initScene = function() {
 
 		blocker.style.display = 'block';
 		instructions.style.display = '';
+		overlay.style.display = 'none';
 
 	} );
 	
