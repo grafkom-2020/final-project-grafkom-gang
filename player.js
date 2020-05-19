@@ -13,25 +13,38 @@ function Player (_camera, _scene){
     let items = [];
     this.items = items;
 
+    let beepAudio = new Audio("/assets/audio/beep-07.wav");
+    let walkAudio = new Audio("/assets/audio/FOOTSTEPS (A) Walking Loop 01 Shorter.wav");
+    walkAudio.volume = 0.2;
+
 	this.update = function(){
+        let playWalk = false;
         if(!control.isLocked) return;
 		deltaForward = 0;
-		deltaRight = 0;
+        deltaRight = 0;
+
 		if(isKey("KeyW")){
-			deltaForward += speed;
+            deltaForward += speed;
+            playWalk = true;
 		}
 		
 		if(isKey("KeyA")){
-			deltaRight -= speed;
+            deltaRight -= speed;
+            playWalk = true;
 		}
 	
 		if(isKey("KeyS")){
-			deltaForward -= speed;
+            deltaForward -= speed;
+            playWalk = true;
 		}
 	
 		if(isKey("KeyD")){
-			deltaRight += speed;
-		}
+            deltaRight += speed;
+            playWalk = true;
+        }
+        if(playWalk){
+            walkAudio.play()
+        }
 		if (isButtonDown(0)) {
 			if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
 				if (raycasts[0].object == scene.children[4].children[49]) {
@@ -78,7 +91,10 @@ function Player (_camera, _scene){
 						if (raycasts[0].object == keypad[6]) passcode += '6';
 						if (raycasts[0].object == keypad[7]) passcode += '7';
 						if (raycasts[0].object == keypad[8]) passcode += '8';
-						if (raycasts[0].object == keypad[9]) passcode += '9';
+                        if (raycasts[0].object == keypad[9]) passcode += '9';
+                        if (keypad.includes(raycasts[0].object)){
+                            beepAudio.play();
+                        } 
 					}
 					if (raycasts[0].object == keypad[10]) passcode = passcode.substring(0, passcode.length - 1);
 					if (raycasts[0].object == keypad[11]) {
