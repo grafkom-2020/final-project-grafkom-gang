@@ -82,6 +82,7 @@ function populateScene() {
 		let metal = new PBRMaterial('Metal009_2K', 'jpg', true, false, false, true, false);
 		let sheetmetal = new PBRMaterial('Metal_Grill_002', 'jpg', true, false, true, false, false);
 		let granite = new PBRMaterial('speckled_countertop1', 'png', false, false, true, false, true);
+		let wood = new PBRMaterial('Wood_09_2K', 'png', true, false, false, false, true);
 		let light = new THREE.MeshStandardMaterial({color: 0xFFFFFF, emissive: 0xFFFFFF});
 		let glass = new THREE.MeshStandardMaterial({color: 0xFFFFFF, transparent: true, opacity: 0.5});
 		
@@ -100,12 +101,41 @@ function populateScene() {
 		gltf.scene.children[12].material = granite.material;
 		gltf.scene.children[13].material = granite.material;
 
-		for (let i = 32; i < 44; i++) keypad.push(gltf.scene.children[i]);
-
 		for (let i = 17; i < 32; i++) {
 			gltf.scene.children[i].material = glass;
 			gltf.scene.children[i].receiveShadow = false;
 		}
+		for (let i = 53; i < 72; i += 2) {
+			gltf.scene.children[i].material = wood.material;
+		}
+		for (let i = 54; i < 73; i += 2) {
+			gltf.scene.children[i].material = glass;
+			gltf.scene.children[i].receiveShadow = false;
+		}
+		for (let i = 73; i < 81; i++) {
+			gltf.scene.children[i].material = glass;
+			gltf.scene.children[i].receiveShadow = false;
+		}
+		for (let i = 81; i < 84; i++) {
+			gltf.scene.children[i].material = wood.material;
+		}
+		for (let i = 84; i < 86; i++) {
+			gltf.scene.children[i].material = glass;
+			gltf.scene.children[i].receiveShadow = false;
+		}
+
+		gltf.scene.children[32].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/0.png')});
+		gltf.scene.children[33].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/1.png')});
+		gltf.scene.children[34].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/2.png')});
+		gltf.scene.children[35].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/3.png')});
+		gltf.scene.children[36].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/4.png')});
+		gltf.scene.children[37].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/5.png')});
+		gltf.scene.children[38].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/6.png')});
+		gltf.scene.children[39].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/7.png')});
+		gltf.scene.children[40].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/8.png')});
+		gltf.scene.children[41].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/9.png')});
+		gltf.scene.children[42].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/delete.png')});
+		gltf.scene.children[43].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/ok.png')});
 
 		scene.add(gltf.scene);
 		console.log(gltf.scene.children);
@@ -117,5 +147,7 @@ function populateScene() {
 		interactables.push({object: gltf.scene.children[10], state: -1, opened: [80, 0, 0]});
 		interactables.push({object: gltf.scene.children[47], state: -1, opened: [-120, 0, 0]});
 		interactables.push({object: gltf.scene.children[51], state: -1, opened: [0, 100, 0]});
+
+		for (let i = 32; i < 44; i++) keypad.push(gltf.scene.children[i]);
     });
 }
