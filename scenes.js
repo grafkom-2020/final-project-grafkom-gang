@@ -197,9 +197,9 @@ function populateScene() {
 			gltf.scene.children[i].castShadow = false;
 		}
 
-		// gltf.scene.children[138].material = cardboard;
-		// gltf.scene.children[139].material = cardboard;
-		// gltf.scene.children[140].material = cardboard;
+		gltf.scene.children[138].material = wood.material;
+		gltf.scene.children[139].material = wood.material;
+		gltf.scene.children[140].material = wood.material;
 		gltf.scene.children[141].material = cable.material;
 
 		gltf.scene.children[142].material = new THREE.MeshPhongMaterial({map: texloader.load('/assets/textures/keycode.png')});
