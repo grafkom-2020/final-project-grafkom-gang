@@ -52,13 +52,10 @@ function Player (_camera, _scene){
 
         if(isKeyDown("ControlLeft")){
             if(!isCrouched){
-                _camera.position.y -= crouchAmount
+                _camera.position.y -= crouchAmount;
                 isCrouched = true;
-            }
-        }
-        if(isKeyUp("ControlLeft")){
-            if(isCrouched){
-                _camera.position.y += crouchAmount
+            }else{
+                _camera.position.y += crouchAmount;
                 isCrouched = false;
             }
         }
