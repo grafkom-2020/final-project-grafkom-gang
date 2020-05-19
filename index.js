@@ -30,7 +30,7 @@ initScene = function() {
     addMouseButtonToListen(0);
 
     renderer.domElement.requestPointerLock();
-    player = new Player(camera);
+    player = new Player(camera,scene);
     scene.add(player.getObject());
 
     document.addEventListener('click', function(){
