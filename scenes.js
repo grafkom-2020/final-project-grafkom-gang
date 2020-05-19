@@ -92,6 +92,7 @@ function populateScene() {
 		let blackmetal = new PBRMaterial('2k-black_metal_1', 'jpg', true, false, true, false, false);
 		let light = new THREE.MeshStandardMaterial({color: 0xFFFFFF, emissive: 0xFFFFFF});
 		let glass = new THREE.MeshStandardMaterial({color: 0xFFFFFF, transparent: true, opacity: 0.5});
+		let spiritus = new THREE.MeshStandardMaterial({color: 0x2200AA});
 		
 		gltf.scene.children[0].material = concrete.material;
 		gltf.scene.children[1].material = concrete.material;
@@ -157,6 +158,25 @@ function populateScene() {
 		gltf.scene.children[49].material.opacity = 0;
 
 		gltf.scene.children[51].material = blackmetal.material;
+
+		for (let i = 86; i < 103; i++) {
+			gltf.scene.children[i].material = glass;
+			gltf.scene.children[i].receiveShadow = false;
+		}
+		for (let i = 103; i < 107; i++) {
+			// PORCELAIN MATERIAL
+		}
+		for (let i = 107; i < 120; i += 3) {
+			gltf.scene.children[i].material = glass;
+			gltf.scene.children[i].receiveShadow = false;
+		}
+		for (let i = 108; i < 121; i += 3) {
+			// FUSE MATERIAL
+		}
+		for (let i = 109; i < 122; i += 3) {
+			gltf.scene.children[i].material = spiritus;
+			gltf.scene.children[i].receiveShadow = false;
+		}
 
 		scene.add(gltf.scene);
 		console.log(gltf.scene.children);
