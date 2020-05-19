@@ -2,9 +2,13 @@
 let interactSpeed = 3;
 let interactables = [];
 let takeable = [];
-let passcode = '';
 let keypad = [];
 let font;
+
+// GAME STATES;
+let passcode = '';
+let cable = false;
+let power = false;
 
 class PBRMaterial {
 	constructor(name, ext, normal, alpha, ao, metalness, roughness) {
@@ -84,6 +88,8 @@ function populateScene() {
 		let sheetmetal = new PBRMaterial('Metal_Grill_002', 'jpg', true, false, true, false, false);
 		let granite = new PBRMaterial('speckled_countertop1', 'png', false, false, true, false, true);
 		let wood = new PBRMaterial('Wood_09_2K', 'png', true, false, false, false, true);
+		let mesh = new PBRMaterial('2K-metal_mesh_1', 'jpg', true, false, true, false, false);
+		let blackmetal = new PBRMaterial('2k-black_metal_1', 'jpg', true, false, true, false, false);
 		let light = new THREE.MeshStandardMaterial({color: 0xFFFFFF, emissive: 0xFFFFFF});
 		let glass = new THREE.MeshStandardMaterial({color: 0xFFFFFF, transparent: true, opacity: 0.5});
 		
@@ -101,6 +107,9 @@ function populateScene() {
 		gltf.scene.children[11].material = sheetmetal.material;
 		gltf.scene.children[12].material = granite.material;
 		gltf.scene.children[13].material = granite.material;
+		gltf.scene.children[14].material = blackmetal.material;
+		gltf.scene.children[15].material = metal.material;
+		gltf.scene.children[16].material = mesh.material;
 
 		for (let i = 17; i < 32; i++) {
 			gltf.scene.children[i].material = glass;
@@ -137,6 +146,17 @@ function populateScene() {
 		gltf.scene.children[41].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/9.png')});
 		gltf.scene.children[42].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/delete.png')});
 		gltf.scene.children[43].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/ok.png')});
+
+		gltf.scene.children[45].material = new THREE.MeshPhongMaterial({color: 0x222222});
+		gltf.scene.children[46].material = blackmetal.material;
+
+		gltf.scene.children[48].material = new THREE.MeshPhongMaterial({color: 0x444444});
+		gltf.scene.children[49].material = new THREE.MeshPhongMaterial({color: 0x880000});
+		gltf.scene.children[50].material = new THREE.MeshPhongMaterial({color: 0x880000});
+		gltf.scene.children[49].material.transparent = 1;
+		gltf.scene.children[49].material.opacity = 0;
+
+		gltf.scene.children[51].material = blackmetal.material;
 
 		scene.add(gltf.scene);
 		console.log(gltf.scene.children);

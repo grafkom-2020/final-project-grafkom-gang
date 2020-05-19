@@ -34,10 +34,31 @@ function Player (_camera, _scene){
 		}
 		if (isButtonDown(0)) {
 			if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
+				if (raycasts[0].object == scene.children[4].children[49]) {
+					scene.children[4].children[49].material.transparent = 1;
+					scene.children[4].children[49].material.opacity = 1 - scene.children[4].children[49].material.opacity;
+					cable = !cable;
+					if (cable && power) {
+						scene.children[4].children[45].material.color = new THREE.Color(0x008800);
+					} else {
+						scene.children[4].children[45].material.color = new THREE.Color(0x222222);
+						passcode = '';
+					}
+				}
+
 				for (let o of interactables) {
 					if (o.object == raycasts[0].object) {
-                        o.state *= 2;
-                    }
+						o.state *= 2;
+						if (o.object == scene.children[4].children[47] && cable) {
+							power = !power;
+							if (power && cable) {
+								scene.children[4].children[45].material.color = new THREE.Color(0x008800);
+							} else {
+								scene.children[4].children[45].material.color = new THREE.Color(0x222222);
+								passcode = '';
+							}
+						}
+					}
                 }
                 for (let o of takeable){
                     if (o.object == raycasts[0].object){
@@ -45,23 +66,27 @@ function Player (_camera, _scene){
                         _scene.remove(o);
                         // need to add code to remove item from scene
                     }
-                }
-				if (passcode.length < 4) {
-					if (raycasts[0].object == keypad[0]) passcode += '0';
-					if (raycasts[0].object == keypad[1]) passcode += '1';
-					if (raycasts[0].object == keypad[2]) passcode += '2';
-					if (raycasts[0].object == keypad[3]) passcode += '3';
-					if (raycasts[0].object == keypad[4]) passcode += '4';
-					if (raycasts[0].object == keypad[5]) passcode += '5';
-					if (raycasts[0].object == keypad[6]) passcode += '6';
-					if (raycasts[0].object == keypad[7]) passcode += '7';
-					if (raycasts[0].object == keypad[8]) passcode += '8';
-					if (raycasts[0].object == keypad[9]) passcode += '9';
 				}
-				if (raycasts[0].object == keypad[10]) passcode = passcode.substring(0, passcode.length - 1);
-				if (raycasts[0].object == keypad[11]) {
-					// ENTER
-					passcode = '';
+				if (power && cable) {
+					if (passcode.length < 4) {
+						if (raycasts[0].object == keypad[0]) passcode += '0';
+						if (raycasts[0].object == keypad[1]) passcode += '1';
+						if (raycasts[0].object == keypad[2]) passcode += '2';
+						if (raycasts[0].object == keypad[3]) passcode += '3';
+						if (raycasts[0].object == keypad[4]) passcode += '4';
+						if (raycasts[0].object == keypad[5]) passcode += '5';
+						if (raycasts[0].object == keypad[6]) passcode += '6';
+						if (raycasts[0].object == keypad[7]) passcode += '7';
+						if (raycasts[0].object == keypad[8]) passcode += '8';
+						if (raycasts[0].object == keypad[9]) passcode += '9';
+					}
+					if (raycasts[0].object == keypad[10]) passcode = passcode.substring(0, passcode.length - 1);
+					if (raycasts[0].object == keypad[11]) {
+						if (passcode === '8888') {
+							// WIN
+						}
+						passcode = '';
+					}
 				}
 				scene.children[3].geometry = new THREE.TextGeometry(passcode, {font: font, size: 0.025, height: .051});
 			}

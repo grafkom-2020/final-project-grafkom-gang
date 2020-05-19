@@ -46,6 +46,7 @@ render = function() {
     raycasts = scene.children[4] == null ? [] : raycaster.intersectObjects(scene.children[4].children);
     let ada = false;
     if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
+        if (raycasts[0].object == scene.children[4].children[49]) ada = true;
         for (let obj of interactables) {
             if (raycasts[0].object == obj.object) {
                 ada = true;
