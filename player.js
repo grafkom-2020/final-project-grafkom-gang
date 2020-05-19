@@ -2,25 +2,15 @@
 function Player (_camera, _scene){
 
     let control = new THREE.PointerLockControls(_camera, document.body);
+    this.control = control;
     let speed = 0.03;
-    let isActive = false;
+    this.speed = speed;
     let deltaForward = 0;
     let deltaRight = 0;
     let bodySize = 0.3;
-    this.activate = function(){
-        if(!isActive){
-            control.lock();
-            isActive = true;
-        }
-    }
-    this.deactivate = function(){
-        if(isActive){
-            control.unlock();
-            isActive = false;
-        }
-    }
+    this.bodySize = bodySize;
     this.update = function(){
-        if(!isActive) return;
+        if(!control.isLocked) return;
         deltaForward = 0;
         deltaRight = 0;
         if(isKey("KeyW")){
