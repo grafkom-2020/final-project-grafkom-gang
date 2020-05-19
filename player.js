@@ -46,6 +46,19 @@ function Player (_camera, _scene){
             walkAudio.play()
         }
 
+        if(isKeyDown("ControlLeft")){
+            if(!isCrouched){
+                _camera.position.y -= crouchAmount
+                isCrouched = true;
+            }
+        }
+        if(isKeyUp("ControlLeft")){
+            if(isCrouched){
+                _camera.position.y += crouchAmount
+                isCrouched = false;
+            }
+        }
+
 		if (isButtonDown(0)) {
             onMouse1Click();
         }
