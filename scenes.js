@@ -3,6 +3,7 @@ let interactSpeed = 3;
 let font;
 
 // Special Objects
+let actionobjects = [];
 let interactables = [];
 let takeable = [];
 let keypad = [];
@@ -213,5 +214,12 @@ function populateScene() {
 
 		takeable.push(scene.children[4].getObjectByName('Key'));
 		takeable.push(scene.children[4].getObjectByName('CableItem'));
+
+		for (let obj of interactables) actionobjects.push(obj.object);
+		actionobjects.push(...takeable);
+		actionobjects.push(...keypad);
+		actionobjects.push(scene.children[4].getObjectByName('Padlock_steel'));
+		actionobjects.push(scene.children[4].getObjectByName('Padlock_handle'));
+		actionobjects.push(scene.children[4].getObjectByName('Kabel_2'));
     });
 }
