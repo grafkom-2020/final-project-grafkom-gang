@@ -47,7 +47,7 @@ class PBRMaterial {
 
 function populateScene() {
 	camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-	camera.position.set(0, 1.7, 6);
+	camera.position.set(0, 1.7, 0);
 	scene.add(camera);
 	let crosshairTexture = texloader.load('/assets/textures/Crosshair.png');
 	let crosshair = new THREE.Mesh(new THREE.PlaneGeometry(0.004, 0.004), new THREE.MeshBasicMaterial({color: 0xFFFFFF, map: crosshairTexture, transparent: true}));
@@ -95,7 +95,7 @@ function populateScene() {
 		}
 
 		scene.add(gltf.scene);
-		console.log(gltf.scene.children);
+		//console.log(gltf.scene.children);
 
 		// interactables.push(gltf.scene.children[4]);
 		interactables.push({object: gltf.scene.children[5], state: -1, opened: [0, -110, 0]});
