@@ -63,7 +63,6 @@ function Player (_camera, _scene){
 		if (isButtonDown(0)) {
             onMouse1Click();
         }
-		
 
 		checkCollision();
 
@@ -154,56 +153,58 @@ function Player (_camera, _scene){
             }
 
             for (let o of interactables) {
-                if (o.object == raycasts[0].object) {
-                    o.state *= 2;
-                    if (o.object == scene.children[4].getObjectByName('Electrical_Lever') && cable) {
-                        power = !power;
-                        if (power && cable) {
-                            scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x008800);
-                        } else {
-                            scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x222222);
-                            passcode = '';
-                        }
-                    }
-                }
-            }
-            for (let o of takeable){
-                if (o == raycasts[0].object){
-                    items.push(o.name);
-                    o.parent.remove(o);
-                }
-            }
-            if (player.items.includes('Key')
-                        && raycasts[0].object == scene.children[4].getObjectByName('Padlock_handle')
-                        || raycasts[0].object == scene.children[4].getObjectByName('Padlock_steel')) {
-                scene.children[4].remove(scene.children[4].getObjectByName('Padlock_handle'));
-                scene.children[4].remove(scene.children[4].getObjectByName('Padlock_steel'));
-            }
-            if (power && cable) {
-                if (passcode.length < 4) {
-                    if (raycasts[0].object == keypad[0]) passcode += '0';
-                    if (raycasts[0].object == keypad[1]) passcode += '1';
-                    if (raycasts[0].object == keypad[2]) passcode += '2';
-                    if (raycasts[0].object == keypad[3]) passcode += '3';
-                    if (raycasts[0].object == keypad[4]) passcode += '4';
-                    if (raycasts[0].object == keypad[5]) passcode += '5';
-                    if (raycasts[0].object == keypad[6]) passcode += '6';
-                    if (raycasts[0].object == keypad[7]) passcode += '7';
-                    if (raycasts[0].object == keypad[8]) passcode += '8';
-                    if (raycasts[0].object == keypad[9]) passcode += '9';
-                    if (keypad.includes(raycasts[0].object)){
-                        beepAudio.play();
-                    } 
-                }
-                if (raycasts[0].object == keypad[10]) passcode = passcode.substring(0, passcode.length - 1);
-                if (raycasts[0].object == keypad[11]) {
-                    if (passcode === '0420') {
-                        // WIN
-                    }
-                    passcode = '';
-                }
-            }
-            scene.children[3].geometry = new THREE.TextGeometry(passcode, {font: font, size: 0.025, height: .051});
+				if (o.object.name === 'VaultDoor' && padlocked) continue;
+				if (o.object == raycasts[0].object) {
+					o.state *= 2;
+					if (o.object == scene.children[4].getObjectByName('Electrical_Lever') && cable) {
+						power = !power;
+						if (power && cable) {
+							scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x008800);
+						} else {
+							scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x222222);
+							passcode = '';
+						}
+					}
+				}
+			}
+			for (let o of takeable){
+				if (o == raycasts[0].object){
+					items.push(o.name);
+					o.parent.remove(o);
+				}
+			}
+			if (player.items.includes('Key')
+						&& raycasts[0].object == scene.children[4].getObjectByName('Padlock_handle')
+						|| raycasts[0].object == scene.children[4].getObjectByName('Padlock_steel')) {
+				scene.children[4].remove(scene.children[4].getObjectByName('Padlock_handle'));
+				scene.children[4].remove(scene.children[4].getObjectByName('Padlock_steel'));
+				padlocked = false;
+			}
+			if (power && cable) {
+				if (passcode.length < 4) {
+					if (raycasts[0].object == keypad[0]) passcode += '0';
+					if (raycasts[0].object == keypad[1]) passcode += '1';
+					if (raycasts[0].object == keypad[2]) passcode += '2';
+					if (raycasts[0].object == keypad[3]) passcode += '3';
+					if (raycasts[0].object == keypad[4]) passcode += '4';
+					if (raycasts[0].object == keypad[5]) passcode += '5';
+					if (raycasts[0].object == keypad[6]) passcode += '6';
+					if (raycasts[0].object == keypad[7]) passcode += '7';
+					if (raycasts[0].object == keypad[8]) passcode += '8';
+					if (raycasts[0].object == keypad[9]) passcode += '9';
+					if (keypad.includes(raycasts[0].object)){
+						beepAudio.play();
+					} 
+				}
+				if (raycasts[0].object == keypad[10]) passcode = passcode.substring(0, passcode.length - 1);
+				if (raycasts[0].object == keypad[11]) {
+					if (passcode === '6980') {
+						// WIN
+					}
+					passcode = '';
+				}
+			}
+			scene.children[3].geometry = new THREE.TextGeometry(passcode, {font: font, size: 0.025, height: .051});
         }
     }
 }
