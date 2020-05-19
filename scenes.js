@@ -204,6 +204,10 @@ function populateScene() {
 
 		gltf.scene.children[142].material = new THREE.MeshPhongMaterial({map: texloader.load('/assets/textures/keycode.png')});
 
+		gltf.scene.children[143].material = metal.material;
+		gltf.scene.children[144].material = blackmetal.material;
+		gltf.scene.children[145].material = metal.material;
+
 		scene.add(gltf.scene);
 		console.log(gltf.scene.children);
 
@@ -229,5 +233,4 @@ function populateScene() {
 		actionobjects.push(scene.children[4].getObjectByName('Padlock_handle'));
 		actionobjects.push(scene.children[4].getObjectByName('Kabel_2'));
 	});
-	console.log(scene);
 }
