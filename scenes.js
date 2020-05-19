@@ -77,7 +77,8 @@ function populateScene() {
 
 	let ambient = new THREE.AmbientLight(0xFFFFFF, 0.3);
 	scene.add(ambient);
-	let light = new THREE.PointLight(0xFFFFFF, 1, 20, 2);
+	let light = new THREE.PointLight(0xFFFFFF, 0, 20, 2);
+	light.name = 'PointLight';
 	light.position.set(0, 2.1, 0);
 	light.castShadow = true;
 	scene.add(light);
@@ -96,7 +97,9 @@ function populateScene() {
 		let mesh = new PBRMaterial('2K-metal_mesh_1', 'jpg', true, false, true, false, false);
 		let blackmetal = new PBRMaterial('2k-black_metal_1', 'jpg', true, false, true, false, false);
 		let marble = new PBRMaterial('Marble004_2K', 'jpg', true, false, false, false, true);
-		let light = new THREE.MeshStandardMaterial({color: 0xFFFFFF, emissive: 0xFFFFFF});
+		let cable = new PBRMaterial('Leather024_2K', 'jpg', true, false, false, false, true);
+		let cable2 = new PBRMaterial('Leather024_2K', 'jpg', true, false, false, false, true);
+		let light = new THREE.MeshStandardMaterial({color: 0xFFFFFF, emissive: 0x000000});
 		let glass = new THREE.MeshStandardMaterial({color: 0xFFFFFF, transparent: true, opacity: 0.5});
 		let spiritus = new THREE.MeshStandardMaterial({color: 0x2200AA});
 		
@@ -154,16 +157,18 @@ function populateScene() {
 		gltf.scene.children[42].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/delete.png')});
 		gltf.scene.children[43].material = new THREE.MeshPhongMaterial({map: new texloader.load('/assets/textures/ok.png')});
 
+		gltf.scene.children[44].material = blackmetal.material;
 		gltf.scene.children[45].material = new THREE.MeshPhongMaterial({color: 0x222222});
 		gltf.scene.children[46].material = blackmetal.material;
 
 		gltf.scene.children[48].material = new THREE.MeshPhongMaterial({color: 0x444444});
-		gltf.scene.children[49].material = new THREE.MeshPhongMaterial({color: 0x880000});
-		gltf.scene.children[50].material = new THREE.MeshPhongMaterial({color: 0x880000});
+		gltf.scene.children[49].material = cable2.material;
 		gltf.scene.children[49].material.transparent = 1;
 		gltf.scene.children[49].material.opacity = 0;
+		gltf.scene.children[50].material = cable.material;
 
 		gltf.scene.children[51].material = blackmetal.material;
+		gltf.scene.children[52].material = cable.material;
 
 		for (let i = 86; i < 103; i++) {
 			gltf.scene.children[i].material = glass;
@@ -177,7 +182,7 @@ function populateScene() {
 			gltf.scene.children[i].receiveShadow = false;
 		}
 		for (let i = 108; i < 121; i += 3) {
-			// FUSE MATERIAL
+			gltf.scene.children[i].material = blackmetal;
 		}
 		for (let i = 109; i < 122; i += 3) {
 			gltf.scene.children[i].material = spiritus;
@@ -195,14 +200,13 @@ function populateScene() {
 		// gltf.scene.children[138].material = cardboard;
 		// gltf.scene.children[139].material = cardboard;
 		// gltf.scene.children[140].material = cardboard;
-		gltf.scene.children[141].material = new THREE.MeshPhongMaterial({color: 0x880000});
+		gltf.scene.children[141].material = cable.material;
 
 		gltf.scene.children[142].material = new THREE.MeshPhongMaterial({map: texloader.load('/assets/textures/keycode.png')});
 
 		scene.add(gltf.scene);
 		console.log(gltf.scene.children);
 
-		// interactables.push(gltf.scene.children[4]);
 		interactables.push({object: gltf.scene.children[5], state: -1, opened: [0, -110, 0]});
 		interactables.push({object: gltf.scene.children[6], state: -1, opened: [0, 110, 0]});
 		interactables.push({object: gltf.scene.children[9], state: -1, opened: [80, 0, 0]});
@@ -224,5 +228,6 @@ function populateScene() {
 		actionobjects.push(scene.children[4].getObjectByName('Padlock_steel'));
 		actionobjects.push(scene.children[4].getObjectByName('Padlock_handle'));
 		actionobjects.push(scene.children[4].getObjectByName('Kabel_2'));
-    });
+	});
+	console.log(scene);
 }

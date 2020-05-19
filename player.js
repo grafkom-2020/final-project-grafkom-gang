@@ -146,8 +146,12 @@ function Player (_camera, _scene){
                 scene.children[4].getObjectByName('Kabel_2').material.opacity = 1 - scene.children[4].getObjectByName('Kabel_2').material.opacity;
                 cable = !cable;
                 if (cable && power) {
+					scene.getObjectByName('PointLight').power = 12;
+					scene.children[4].getObjectByName('Lamp_Emission').material.emissive = new THREE.Color(0xFFFFFF);
                     scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x008800);
                 } else {
+					scene.getObjectByName('PointLight').power = 0;
+					scene.children[4].getObjectByName('Lamp_Emission').material.emissive = new THREE.Color(0x000000);
                     scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x222222);
                     passcode = '';
                 }
@@ -160,8 +164,12 @@ function Player (_camera, _scene){
 					if (o.object == scene.children[4].getObjectByName('Electrical_Lever') && cable) {
 						power = !power;
 						if (power && cable) {
+							scene.getObjectByName('PointLight').power = 12;
+							scene.children[4].getObjectByName('Lamp_Emission').material.emissive = new THREE.Color(0xFFFFFF);
 							scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x008800);
 						} else {
+							scene.getObjectByName('PointLight').power = 0;
+							scene.children[4].getObjectByName('Lamp_Emission').material.emissive = new THREE.Color(0x000000);
 							scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x222222);
 							passcode = '';
 						}
