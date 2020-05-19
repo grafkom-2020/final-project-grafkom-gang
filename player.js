@@ -12,6 +12,7 @@ function Player (_camera, _scene){
 
     let items = [];
     this.items = items;
+	updateInventory();
 
     let beepAudio = new Audio("/assets/audio/beep-07.wav");
     let walkAudio = new Audio("/assets/audio/FOOTSTEPS (A) Walking Loop 01 Shorter.wav");
@@ -73,6 +74,14 @@ function Player (_camera, _scene){
 
 	this.getObject = function(){
 		return control.getObject();
+	}
+
+	function updateInventory() {
+		let d = document.getElementById('contents');
+		d.innerHTML = '';
+		for (let i of items) {
+			d.innerHTML += '<li>' + i + '</li>';
+		}
 	}
 
 	function checkCollision(){
@@ -141,7 +150,8 @@ function Player (_camera, _scene){
     function onMouse1Click(){
         if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
             if (raycasts[0].object == scene.children[4].getObjectByName('Kabel_2') && player.items.includes('CableItem')) {
-                player.items.splice(player.items.find((item) => item === 'CableItem'), 1);
+				player.items.splice(player.items.indexOf('CableItem'), 1);
+				updateInventory();
                 scene.children[4].getObjectByName('Kabel_2').material.transparent = 1;
                 scene.children[4].getObjectByName('Kabel_2').material.opacity = 1 - scene.children[4].getObjectByName('Kabel_2').material.opacity;
                 cable = !cable;
@@ -179,6 +189,7 @@ function Player (_camera, _scene){
 			for (let o of takeable){
 				if (o == raycasts[0].object){
 					items.push(o.name);
+					updateInventory();
 					o.parent.remove(o);
 				}
 			}

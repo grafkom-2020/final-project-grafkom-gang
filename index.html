@@ -2,6 +2,7 @@
 <html>
 
 <head>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 	<script type="text/javascript" src="/lib/js/three.min.js"></script>
 	<script type="text/javascript" src="/lib/js/GLTFLoader.js"></script>
 	<script type="text/javascript" src="/lib/js/PointerLockControl.js"></script>
@@ -12,12 +13,46 @@
 		* {
 			margin: 0;
 			overflow: hidden;
+			font-family: 'Roboto', sans-serif;
+			color: white;
+		}
+		#viewport {
+			height: 100vh;
+		}
+		#overlay {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			display: block;
+			width: 200px;
+			height: 200px;
+			background-color: rgba(0, 0, 0, 0.3);
+			backdrop-filter: blur(10px);
+			z-index: 99;
+		}
+		h1 {
+			text-align: center;
+			padding: 10px;
+			padding-bottom: 15px;
+			font-size: 25px;
+			font-weight: 300;
+		}
+		ul {
+			font-size: 20px;
+			padding: 20px;
 		}
 	</style>
 </head>
 
 <body>
 	<div id="viewport"></div>
+	<div id="overlay">
+		<h1>Inventory</h1>
+		<ul id="contents">
+			<li>tes</li>
+			<li>tes</li>
+		</ul>
+	</div>
     <script type="text/javascript" src="index.js"></script>
 </body>
 </html>
