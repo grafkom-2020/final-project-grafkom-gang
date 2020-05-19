@@ -54,7 +54,7 @@ function populateScene() {
 	crosshair.position.set(0, 0, -0.1);
 	camera.add(crosshair);
 
-	let ambient = new THREE.AmbientLight(0xFFFFFF, 0.1);
+	let ambient = new THREE.AmbientLight(0xFFFFFF, 0.3);
 	scene.add(ambient);
 	let light = new THREE.PointLight(0xFFFFFF, 1, 20, 2);
 	light.position.set(0, 2.1, 0);
@@ -62,11 +62,17 @@ function populateScene() {
 	scene.add(light);
 
 	objloader.load('/assets/models/scene.glb', (gltf) => {
+		for (let i = 0; i < gltf.scene.children.length; i++) {
+			gltf.scene.children[i].receiveShadow = true;
+			gltf.scene.children[i].castShadow = true;
+		}
+
 		let concrete = new PBRMaterial('Plaster003_2K', 'jpg', true, false, false, false, false);
 		let metal = new PBRMaterial('Metal009_2K', 'jpg', true, false, false, true, false);
 		let sheetmetal = new PBRMaterial('Metal_Grill_002', 'jpg', true, false, true, false, false);
 		let granite = new PBRMaterial('speckled_countertop1', 'png', false, false, true, false, true);
 		let light = new THREE.MeshStandardMaterial({color: 0xFFFFFF, emissive: 0xFFFFFF});
+		let glass = new THREE.MeshStandardMaterial({color: 0xFFFFFF, transparent: true, opacity: 0.5});
 		
 		gltf.scene.children[0].material = concrete.material;
 		gltf.scene.children[1].material = concrete.material;
@@ -82,11 +88,12 @@ function populateScene() {
 		gltf.scene.children[11].material = sheetmetal.material;
 		gltf.scene.children[12].material = granite.material;
 		gltf.scene.children[13].material = granite.material;
-		
-		for (let i = 0; i < gltf.scene.children.length; i++) {
-			gltf.scene.children[i].receiveShadow = true;
-			gltf.scene.children[i].castShadow = true;
+
+		for (let i = 17; i < 32; i++) {
+			gltf.scene.children[i].material = glass;
+			gltf.scene.children[i].receiveShadow = false;
 		}
+
 		scene.add(gltf.scene);
 		console.log(gltf.scene.children);
 
@@ -95,5 +102,7 @@ function populateScene() {
 		interactables.push({object: gltf.scene.children[6], state: -1, opened: [0, 110, 0]});
 		interactables.push({object: gltf.scene.children[9], state: -1, opened: [80, 0, 0]});
 		interactables.push({object: gltf.scene.children[10], state: -1, opened: [80, 0, 0]});
+		interactables.push({object: gltf.scene.children[47], state: -1, opened: [-120, 0, 0]});
+		interactables.push({object: gltf.scene.children[51], state: -1, opened: [0, 100, 0]});
     });
 }
