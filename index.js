@@ -2,12 +2,16 @@ var initScene, render, objloader, texloader, fontloader, renderer, player, rayca
 
 let scene, camera, raycasts;
 
+var blocker = document.getElementById( 'blocker' );
+var instructions = document.getElementById( 'instructions' );
+
 initScene = function() {
 	renderer = new THREE.WebGLRenderer({ antialias: true });
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.shadowMap.enabled = true;
 	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 	document.getElementById( 'viewport' ).appendChild( renderer.domElement );
+
 	objloader = new THREE.GLTFLoader();
 	texloader = new THREE.TextureLoader();
 	fontloader = new THREE.FontLoader();
@@ -30,9 +34,23 @@ initScene = function() {
 	player = new Player(camera,scene);
 	scene.add(player.getObject());
 
-	document.addEventListener('click', function(){
+	instructions.addEventListener('click', function(){
 		player.control.lock();
 	},false);
+
+	player.control.addEventListener( 'lock', function () {
+
+		instructions.style.display = 'none';
+		blocker.style.display = 'none';
+
+	} );
+
+	player.control.addEventListener( 'unlock', function () {
+
+		blocker.style.display = 'block';
+		instructions.style.display = '';
+
+	} );
 	
 	requestAnimationFrame( render );
 };
