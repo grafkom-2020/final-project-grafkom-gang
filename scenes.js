@@ -90,6 +90,7 @@ function populateScene() {
 		let wood = new PBRMaterial('Wood_09_2K', 'png', true, false, false, false, true);
 		let mesh = new PBRMaterial('2K-metal_mesh_1', 'jpg', true, false, true, false, false);
 		let blackmetal = new PBRMaterial('2k-black_metal_1', 'jpg', true, false, true, false, false);
+		let marble = new PBRMaterial('Marble004_2K', 'jpg', true, false, false, false, true);
 		let light = new THREE.MeshStandardMaterial({color: 0xFFFFFF, emissive: 0xFFFFFF});
 		let glass = new THREE.MeshStandardMaterial({color: 0xFFFFFF, transparent: true, opacity: 0.5});
 		let spiritus = new THREE.MeshStandardMaterial({color: 0x2200AA});
@@ -164,7 +165,7 @@ function populateScene() {
 			gltf.scene.children[i].receiveShadow = false;
 		}
 		for (let i = 103; i < 107; i++) {
-			// PORCELAIN MATERIAL
+			gltf.scene.children[i].material = marble.material;
 		}
 		for (let i = 107; i < 120; i += 3) {
 			gltf.scene.children[i].material = glass;
