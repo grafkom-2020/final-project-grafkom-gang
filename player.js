@@ -148,7 +148,6 @@ function Player (_camera, _scene){
     }
     
     function onMouse1Click(){
-		win();
         if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
             if (raycasts[0].object == scene.children[4].getObjectByName('Kabel_2') && player.items.includes('CableItem')) {
 				player.items.splice(player.items.indexOf('CableItem'), 1);
@@ -231,9 +230,15 @@ function Player (_camera, _scene){
 	}
 	
 	function win(){
+		control.removeEventListener('lock',player_lock_func); // HOTFIX
+		control.removeEventListener('unlock',player_unlock_func); // HOTFIX
+		instructions.removeEventListener('click',pointer_lock_func); // HOTFIX
 		console.log('win');
 		control.unlock();
-		instructions.style.display = 'none';
-		winpanel.style.display = 'inline';
+
+		blocker.style.display = 'block'; // HOTFIX
+		winpanel.style.display = ''; // HOTFIX
+		instructions.style.display = 'none'; // HOTFIX
+		overlay.style.display = 'none'; // HOTFIX
 	}
 }

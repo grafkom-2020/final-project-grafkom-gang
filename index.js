@@ -7,6 +7,22 @@ var instructions = document.getElementById( 'instructions' );
 var winpanel = document.getElementById('winpanel');
 var overlay = document.getElementById('overlay');
 
+var player_lock_func = function (){
+	instructions.style.display = 'none';
+	blocker.style.display = 'none';
+	overlay.style.display = '';
+}; // HOTFIX
+
+var pointer_lock_func = function(){
+	player.control.lock();
+}; // HOTFIX
+
+var player_unlock_func = function(){
+	blocker.style.display = 'block';
+	instructions.style.display = '';
+	overlay.style.display = 'none';
+}; // HOTFIX
+
 initScene = function() {
 	renderer = new THREE.WebGLRenderer({ antialias: true });
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -37,29 +53,19 @@ initScene = function() {
 	scene.add(player.getObject());
 	overlay.style.display = 'none';
 
-	instructions.addEventListener('click', function(){
-		player.control.lock();
-	}, false);
+	winpanel.style.display = 'none';
+
+	instructions.addEventListener('click', pointer_lock_func, false); // HOTFIX
 
 	winpanel.addEventListener('click', function(){
 		window.location.reload();
 	});
 
-	player.control.addEventListener( 'lock', function () {
+	player.control.addEventListener( 'lock', player_lock_func ); // HOTFIX
 
-		instructions.style.display = 'none';
-		blocker.style.display = 'none';
-		overlay.style.display = '';
+	player.control.addEventListener( 'unlock', player_unlock_func); // HOTFIX
 
-	} );
-
-	player.control.addEventListener( 'unlock', function () {
-
-		blocker.style.display = 'block';
-		instructions.style.display = '';
-		overlay.style.display = 'none';
-
-	});
+	player.control.unlock(); // HOTFIX
 	
 	requestAnimationFrame( render );
 };
