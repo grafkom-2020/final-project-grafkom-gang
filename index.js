@@ -1,11 +1,11 @@
 'use strict';
 	
 Physijs.scripts.worker = '/lib/js/physijs_worker.js';
-Physijs.scripts.ammo = '/lib/js/ammo.min.js';
+Physijs.scripts.ammo = '/lib/js/ammo.js';
 
-var initScene, render, objloader, texloader, renderer, player;
+var initScene, render, objloader, texloader, renderer, player, raycaster;
 
-let scene, camera;
+let scene, camera, raycasts;
 
 initScene = function() {
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -14,7 +14,8 @@ initScene = function() {
 	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 	document.getElementById( 'viewport' ).appendChild( renderer.domElement );
 	objloader = new THREE.GLTFLoader();
-	texloader = new THREE.TextureLoader();
+    texloader = new THREE.TextureLoader();
+    raycaster = new THREE.Raycaster();
 	
 	scene = new Physijs.Scene();
 	populateScene();
@@ -26,19 +27,10 @@ initScene = function() {
     addKeyToListen("KeyA");
     addKeyToListen("KeyS");
     addKeyToListen("KeyD");
+    addMouseButtonToListen(0);
 
     renderer.domElement.requestPointerLock();
-
-    var capsule = new Physijs.BoxMesh(
-        new THREE.CubeGeometry(0.3,2,0.3),
-        new THREE.MeshBasicMaterial({ color: 0x888888 }),
-    );
-    // capsule.__dirtyPosition = true;
-    capsule.name = "Player Mesh";
-    capsule.position.y += 2;
-    scene.add(capsule);
-
-    player = new Player(camera,capsule);
+    player = new Player(camera);
     scene.add(player.getObject());
 
     document.addEventListener('click', function(){
@@ -48,22 +40,24 @@ initScene = function() {
         player.deactivate();
     },false);
     
-    var floor = new Physijs.BoxMesh(
-        new THREE.CubeGeometry(9,0.1,11),
-        new THREE.MeshBasicMaterial({ color: 0x888888 }),
-        0
-    );
-    floor.position.set(0,-0.04,0);
-    floor.addEventListener('collision', function(other_object, relative_vel, relative_rot, contact_normal){
-        other_object.setLinearVelocity(new THREE.Vector3(0,0,0));
-        other_object.setAngularVelocity(new THREE.Vector3(0,0,0));
-    });
-    // box.__dirtyPosition = true;
-    scene.add(floor);
     requestAnimationFrame( render );
 };
 
 render = function() {
+    raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
+    raycasts = scene.children[3] == null ? [] : raycaster.intersectObjects(scene.children[3].children);
+    let ada = false;
+    for (let obj of interactables) {
+        if (raycasts[0] != null && raycasts[0].distance <= 2.5 && raycasts[0].object == obj.object) ada = true;
+    }
+    if (ada) {
+        scene.children[2].children[0].material.opacity = 1;
+        scene.children[2].children[0].scale.set(1, 1, 1);
+    } else {
+        scene.children[2].children[0].material.opacity = 0.3;
+        scene.children[2].children[0].scale.set(0.8, 0.8, 0.8);
+    }
+
     scene.simulate(); // run physics
     update();
     renderer.render(scene, camera); // render the scene
@@ -73,6 +67,33 @@ render = function() {
 
 // game logic
 function update(){
+    for (let obj of interactables) {
+        if (Math.abs(obj.state) > 1) {
+            if (obj.state < 0) { // CLOSING
+                obj.object.rotation.x += obj.opened[0] * interactSpeed / 18000 * Math.PI;
+                obj.object.rotation.y += obj.opened[1] * interactSpeed / 18000 * Math.PI;
+                obj.object.rotation.z += obj.opened[2] * interactSpeed / 18000 * Math.PI;
+                obj.state--;
+                if (obj.state < -101 / interactSpeed) obj.state = 1;
+            } else {
+                obj.object.rotation.x -= obj.opened[0] * interactSpeed / 18000 * Math.PI;
+                obj.object.rotation.y -= obj.opened[1] * interactSpeed / 18000 * Math.PI;
+                obj.object.rotation.z -= obj.opened[2] * interactSpeed / 18000 * Math.PI;
+                obj.state++;
+                if (obj.state > 101 / interactSpeed) obj.state = -1;
+            }
+        } else {
+            if (obj.state == -1) {
+                obj.object.rotation.x = 0;
+                obj.object.rotation.y = 0;
+                obj.object.rotation.z = 0;
+            } else {
+                obj.object.rotation.x = obj.opened[0] / 180 * Math.PI;
+                obj.object.rotation.y = obj.opened[1] / 180 * Math.PI;
+                obj.object.rotation.z = obj.opened[2] / 180 * Math.PI;
+            }
+        }
+    }
     player.update();
 }
 

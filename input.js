@@ -69,21 +69,21 @@ function refreshInput(){
 
 function isButtonDown(mouseButton){
     if(mouseButton in mouseInput){
-        return !mouseInputPast[eventCode] && mouseInput[eventCode];
+        return !mouseInputPast[mouseButton] && mouseInput[mouseButton];
     }
     return false;
 }
 
 function isButton(mouseButton){
     if(mouseButton in mouseInput){
-        return mouseInput[eventCode];
+        return mouseInput[mouseButton];
     }
     return false;
 }
 
 function isButtonUp(mouseButton){
     if(mouseButton in mouseInput){
-        return mouseInputPast[eventCode] && !mouseInput[eventCode];
+        return mouseInputPast[mouseButton] && !mouseInput[mouseButton];
     }
     return false;
 }

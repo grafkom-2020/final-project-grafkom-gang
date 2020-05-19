@@ -1,22 +1,10 @@
 
-function Player (_camera,_mesh){
+function Player (_camera){
 
     let control = new THREE.PointerLockControls(_camera, document.body);
     let speed = 0.05;
     let isActive = false;
-    let dir = new THREE.Vector3();
 
-    _mesh.setLinearFactor(new THREE.Vector3(0,0,0));
-    _mesh.setAngularFactor(new THREE.Vector3(0,0,0));
-    _mesh.add(_camera);
-    _camera.position.set(0,1,0);
-    _mesh.addEventListener('collision', function(other_object, relative_velocity, relative_rotation, contact_normal){
-        xColl = relative_velocity.x * contact_normal.x;
-        zColl = relative_velocity.z * contact_normal.z;
-        console.log(xColl);
-        console.log(zColl);
-        coll = true;
-    });
     this.activate = function(){
         if(!isActive){
             control.lock();
@@ -29,14 +17,11 @@ function Player (_camera,_mesh){
             isActive = false;
         }
     }
-    this.mesh = function(){
-        return _mesh;
-    }
     this.update = function(){
-        let deltaForward = 0;
+        let deltaFordward = 0;
         let deltaRight = 0;
         if(isKey("KeyW")){
-            deltaForward += speed;
+            deltaFordward += speed;
         }
         
         if(isKey("KeyA")){
@@ -44,35 +29,28 @@ function Player (_camera,_mesh){
         }
     
         if(isKey("KeyS")){
-            deltaForward -= speed;
+            deltaFordward -= speed;
         }
     
         if(isKey("KeyD")){
             deltaRight += speed;
         }
 
-        control.getDirection(dir);
-        dir.normalize();
-        dir.x += deltaForward;
-        dir.z += deltaRight
-        _mesh.position.set(dir);
-        control.moveForward(deltaForward);
+        if (isButtonDown(0)) {
+            if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
+                for (let o of interactables) {
+                    if (o.object == raycasts[0].object) {
+                        o.state *= 2;
+                    }
+                }
+            }
+        }
+
+        control.moveForward(deltaFordward);
         control.moveRight(deltaRight);
-
-        // dir.setFromMatrixColumn( _camera.matrix, 0 );
-
-		// dir.crossVectors( _camera.up, dir );
-
-        // _mesh.position.addScaledVector( dir, deltaForward );
-        
-        // dir.setFromMatrixColumn( _camera.matrix, 0 );
-
-        // _mesh.position.addScaledVector( dir, deltaRight );
-        
-        // _mesh.__dirtyPosition = true;
     }
 
     this.getObject = function(){
-        return _mesh;
+        return control.getObject();
     }
 }
