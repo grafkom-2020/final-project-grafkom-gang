@@ -17,6 +17,10 @@ function Player (_camera, _scene){
     let walkAudio = new Audio("/assets/audio/FOOTSTEPS (A) Walking Loop 01 Shorter.wav");
     walkAudio.volume = 0.2;
 
+    let isCrouched = false;
+    let crouchAmount = 0.5;
+    this.crouchAmount = crouchAmount;
+
 	this.update = function(){
         let playWalk = false;
         if(!control.isLocked) return;
@@ -45,6 +49,24 @@ function Player (_camera, _scene){
         if(playWalk){
             walkAudio.play()
         }
+<<<<<<< Updated upstream
+=======
+        
+        if(isKeyDown("ControlLeft")){
+            if(!isCrouched){
+                _camera.position.y -= crouchAmount
+                isCrouched = true;
+            }
+        }
+        if(isKeyUp("ControlLeft")){
+            if(isCrouched){
+                _camera.position.y += crouchAmount
+                isCrouched = false;
+            }
+        }
+
+
+>>>>>>> Stashed changes
 		if (isButtonDown(0)) {
 			if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
 				if (raycasts[0].object == scene.children[4].getObjectByName('Kabel_2') && player.items.includes('CableItem')) {

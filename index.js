@@ -27,7 +27,8 @@ initScene = function() {
 	addKeyToListen("KeyW");
 	addKeyToListen("KeyA");
 	addKeyToListen("KeyS");
-	addKeyToListen("KeyD");
+    addKeyToListen("KeyD");
+    addKeyToListen("ControlLeft");
 	addMouseButtonToListen(0);
 
 	renderer.domElement.requestPointerLock();
