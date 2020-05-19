@@ -61,6 +61,7 @@ function Player (_camera, _scene){
 				}
 
 				for (let o of interactables) {
+					if (o.object.name === 'VaultDoor' && padlocked) continue;
 					if (o.object == raycasts[0].object) {
 						o.state *= 2;
 						if (o.object == scene.children[4].getObjectByName('Electrical_Lever') && cable) {
@@ -85,6 +86,7 @@ function Player (_camera, _scene){
 							|| raycasts[0].object == scene.children[4].getObjectByName('Padlock_steel')) {
 					scene.children[4].remove(scene.children[4].getObjectByName('Padlock_handle'));
 					scene.children[4].remove(scene.children[4].getObjectByName('Padlock_steel'));
+					padlocked = false;
 				}
 				if (power && cable) {
 					if (passcode.length < 4) {
@@ -104,7 +106,7 @@ function Player (_camera, _scene){
 					}
 					if (raycasts[0].object == keypad[10]) passcode = passcode.substring(0, passcode.length - 1);
 					if (raycasts[0].object == keypad[11]) {
-						if (passcode === '0420') {
+						if (passcode === '6980') {
 							// WIN
 						}
 						passcode = '';

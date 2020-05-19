@@ -197,6 +197,8 @@ function populateScene() {
 		// gltf.scene.children[140].material = cardboard;
 		gltf.scene.children[141].material = new THREE.MeshPhongMaterial({color: 0x880000});
 
+		gltf.scene.children[142].material = new THREE.MeshPhongMaterial({map: texloader.load('/assets/textures/keycode.png')});
+
 		scene.add(gltf.scene);
 		console.log(gltf.scene.children);
 
@@ -207,6 +209,7 @@ function populateScene() {
 		interactables.push({object: gltf.scene.children[10], state: -1, opened: [80, 0, 0]});
 		interactables.push({object: gltf.scene.children[47], state: -1, opened: [-120, 0, 0]});
 		interactables.push({object: gltf.scene.children[51], state: -1, opened: [0, 100, 0]});
+		interactables.push({object: gltf.scene.children[122], state: -1, opened: [0, 120, 0]});
 		interactables.push({object: gltf.scene.children[139], state: -1, opened: [-60, 0, 0]});
 		interactables.push({object: gltf.scene.children[140], state: -1, opened: [220, 0, 0]});
 
