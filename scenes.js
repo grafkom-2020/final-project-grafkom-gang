@@ -1,14 +1,18 @@
 // STATE: negative -> opening/closed, 1 -> final, 2-(101/speed) -> animation
 let interactSpeed = 3;
+let font;
+
+// Special Objects
 let interactables = [];
 let takeable = [];
 let keypad = [];
-let font;
+let vaultdoor;
 
 // GAME STATES;
 let passcode = '';
 let cable = false;
 let power = false;
+let padlocked = true;
 
 class PBRMaterial {
 	constructor(name, ext, normal, alpha, ao, metalness, roughness) {
@@ -178,6 +182,19 @@ function populateScene() {
 			gltf.scene.children[i].material = spiritus;
 			gltf.scene.children[i].receiveShadow = false;
 		}
+		gltf.scene.children[122].material = metal.material;
+		gltf.scene.children[125].material = metal.material;
+
+		for (let i = 127; i < 138; i++) {
+			gltf.scene.children[i].material = glass;
+			gltf.scene.children[i].receiveShadow = false;
+			gltf.scene.children[i].castShadow = false;
+		}
+
+		// gltf.scene.children[138].material = cardboard;
+		// gltf.scene.children[139].material = cardboard;
+		// gltf.scene.children[140].material = cardboard;
+		gltf.scene.children[141].material = new THREE.MeshPhongMaterial({color: 0x880000});
 
 		scene.add(gltf.scene);
 		console.log(gltf.scene.children);
@@ -189,7 +206,12 @@ function populateScene() {
 		interactables.push({object: gltf.scene.children[10], state: -1, opened: [80, 0, 0]});
 		interactables.push({object: gltf.scene.children[47], state: -1, opened: [-120, 0, 0]});
 		interactables.push({object: gltf.scene.children[51], state: -1, opened: [0, 100, 0]});
+		interactables.push({object: gltf.scene.children[139], state: -1, opened: [-60, 0, 0]});
+		interactables.push({object: gltf.scene.children[140], state: -1, opened: [220, 0, 0]});
 
 		for (let i = 32; i < 44; i++) keypad.push(gltf.scene.children[i]);
+
+		takeable.push(scene.children[4].getObjectByName('Key'));
+		takeable.push(scene.children[4].getObjectByName('CableItem'));
     });
 }

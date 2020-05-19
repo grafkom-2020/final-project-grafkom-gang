@@ -47,14 +47,15 @@ function Player (_camera, _scene){
         }
 		if (isButtonDown(0)) {
 			if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
-				if (raycasts[0].object == scene.children[4].children[49]) {
-					scene.children[4].children[49].material.transparent = 1;
-					scene.children[4].children[49].material.opacity = 1 - scene.children[4].children[49].material.opacity;
+				if (raycasts[0].object == scene.children[4].getObjectByName('Kabel_2') && player.items.includes('CableItem')) {
+					player.items.splice(player.items.find((item) => item === 'CableItem'), 1);
+					scene.children[4].getObjectByName('Kabel_2').material.transparent = 1;
+					scene.children[4].getObjectByName('Kabel_2').material.opacity = 1 - scene.children[4].getObjectByName('Kabel_2').material.opacity;
 					cable = !cable;
 					if (cable && power) {
-						scene.children[4].children[45].material.color = new THREE.Color(0x008800);
+						scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x008800);
 					} else {
-						scene.children[4].children[45].material.color = new THREE.Color(0x222222);
+						scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x222222);
 						passcode = '';
 					}
 				}
@@ -62,23 +63,28 @@ function Player (_camera, _scene){
 				for (let o of interactables) {
 					if (o.object == raycasts[0].object) {
 						o.state *= 2;
-						if (o.object == scene.children[4].children[47] && cable) {
+						if (o.object == scene.children[4].getObjectByName('Electrical_Lever') && cable) {
 							power = !power;
 							if (power && cable) {
-								scene.children[4].children[45].material.color = new THREE.Color(0x008800);
+								scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x008800);
 							} else {
-								scene.children[4].children[45].material.color = new THREE.Color(0x222222);
+								scene.children[4].getObjectByName('Panel_Screen').material.color = new THREE.Color(0x222222);
 								passcode = '';
 							}
 						}
 					}
                 }
                 for (let o of takeable){
-                    if (o.object == raycasts[0].object){
-                        items.push(o.object.name);
-                        _scene.remove(o);
-                        // need to add code to remove item from scene
+                    if (o == raycasts[0].object){
+                        items.push(o.name);
+						o.parent.remove(o);
                     }
+				}
+				if (player.items.includes('Key')
+							&& raycasts[0].object == scene.children[4].getObjectByName('Padlock_handle')
+							|| raycasts[0].object == scene.children[4].getObjectByName('Padlock_steel')) {
+					scene.children[4].remove(scene.children[4].getObjectByName('Padlock_handle'));
+					scene.children[4].remove(scene.children[4].getObjectByName('Padlock_steel'));
 				}
 				if (power && cable) {
 					if (passcode.length < 4) {
@@ -98,7 +104,7 @@ function Player (_camera, _scene){
 					}
 					if (raycasts[0].object == keypad[10]) passcode = passcode.substring(0, passcode.length - 1);
 					if (raycasts[0].object == keypad[11]) {
-						if (passcode === '8888') {
+						if (passcode === '0420') {
 							// WIN
 						}
 						passcode = '';
