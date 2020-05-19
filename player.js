@@ -9,6 +9,10 @@ function Player (_camera, _scene){
     let deltaRight = 0;
     let bodySize = 0.3;
     this.bodySize = bodySize;
+
+    let items = [];
+    this.items = items;
+
 	this.update = function(){
         if(!control.isLocked) return;
 		deltaForward = 0;
@@ -32,9 +36,16 @@ function Player (_camera, _scene){
 			if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
 				for (let o of interactables) {
 					if (o.object == raycasts[0].object) {
-						o.state *= 2;
-					}
-				}
+                        o.state *= 2;
+                    }
+                }
+                for (let o of takeable){
+                    if (o.object == raycasts[0].object){
+                        items.push(o.object.name);
+                        _scene.remove(o);
+                        // need to add code to remove item from scene
+                    }
+                }
 				if (passcode.length < 4) {
 					if (raycasts[0].object == keypad[0]) passcode += '0';
 					if (raycasts[0].object == keypad[1]) passcode += '1';

@@ -1,6 +1,7 @@
 // STATE: negative -> opening/closed, 1 -> final, 2-(101/speed) -> animation
 let interactSpeed = 3;
 let interactables = [];
+let takeable = [];
 let passcode = '';
 let keypad = [];
 let font;
