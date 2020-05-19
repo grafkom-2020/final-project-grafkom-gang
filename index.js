@@ -1,8 +1,3 @@
-'use strict';
-	
-Physijs.scripts.worker = '/lib/js/physijs_worker.js';
-Physijs.scripts.ammo = '/lib/js/ammo.js';
-
 var initScene, render, objloader, texloader, fontloader, renderer, player, raycaster;
 
 let scene, camera, raycasts;
@@ -18,7 +13,7 @@ initScene = function() {
 	fontloader = new THREE.FontLoader();
 	raycaster = new THREE.Raycaster();
 	
-	scene = new Physijs.Scene();
+	scene = new THREE.Scene();
 	populateScene();
 	
 	requestAnimationFrame( render );
@@ -56,9 +51,8 @@ render = function() {
 		}
 	}
 
-	scene.simulate(); // run physics
 	update();
-	renderer.render(scene, camera); // render the scene
+	renderer.render(scene, camera);
 	refreshInput();
 	requestAnimationFrame(render);
 };
