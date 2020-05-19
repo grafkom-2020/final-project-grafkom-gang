@@ -17,6 +17,10 @@ function Player (_camera, _scene){
     let walkAudio = new Audio("/assets/audio/FOOTSTEPS (A) Walking Loop 01 Shorter.wav");
     walkAudio.volume = 0.2;
 
+    let isCrouched = false;
+    let crouchAmount = 0.5;
+    this.crouchAmount = crouchAmount;
+
 	this.update = function(){
         if(!control.isLocked) return;
         let playWalk = false;
