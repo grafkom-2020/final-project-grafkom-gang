@@ -3,7 +3,7 @@
 Physijs.scripts.worker = '/lib/js/physijs_worker.js';
 Physijs.scripts.ammo = '/lib/js/ammo.js';
 
-var initScene, render, objloader, texloader, renderer, player, raycaster;
+var initScene, render, objloader, texloader, fontloader, renderer, player, raycaster;
 
 let scene, camera, raycasts;
 
@@ -15,6 +15,7 @@ initScene = function() {
 	document.getElementById( 'viewport' ).appendChild( renderer.domElement );
 	objloader = new THREE.GLTFLoader();
     texloader = new THREE.TextureLoader();
+    fontloader = new THREE.FontLoader();
     raycaster = new THREE.Raycaster();
 	
 	scene = new Physijs.Scene();
@@ -45,10 +46,21 @@ initScene = function() {
 
 render = function() {
     raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
-    raycasts = scene.children[3] == null ? [] : raycaster.intersectObjects(scene.children[3].children);
+    raycasts = scene.children[4] == null ? [] : raycaster.intersectObjects(scene.children[4].children);
     let ada = false;
-    for (let obj of interactables) {
-        if (raycasts[0] != null && raycasts[0].distance <= 2.5 && raycasts[0].object == obj.object) ada = true;
+    if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
+        for (let obj of interactables) {
+            if (raycasts[0].object == obj.object) {
+                ada = true;
+                break;
+            }
+        }
+        for (let obj of keypad) {
+            if (raycasts[0].object == obj) {
+                ada = true;
+                break;
+            }
+        }
     }
     if (ada) {
         scene.children[2].children[0].material.opacity = 1;

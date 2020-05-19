@@ -1,6 +1,9 @@
 // STATE: negative -> opening/closed, 1 -> final, 2-(101/speed) -> animation
 let interactSpeed = 3;
 let interactables = [];
+let passcode = '';
+let keypad = [];
+let font;
 
 class PBRMaterial {
 	constructor(name, ext, normal, alpha, ao, metalness, roughness) {
@@ -54,6 +57,14 @@ function populateScene() {
 	crosshair.position.set(0, 0, -0.1);
 	camera.add(crosshair);
 
+	fontloader.load('/assets/fonts/7seg.json', (f) => {
+		font = f;
+		text = new THREE.Mesh(new THREE.TextGeometry(passcode, {font: f, size: 0.025, height: .051}), new THREE.MeshBasicMaterial({color: 0xFFFFFF}));
+		text.position.set(3.95, 1.7, 2.43);
+		text.rotation.set(0, -Math.PI / 2, 0);
+		scene.add(text);
+	});
+
 	let ambient = new THREE.AmbientLight(0xFFFFFF, 0.3);
 	scene.add(ambient);
 	let light = new THREE.PointLight(0xFFFFFF, 1, 20, 2);
@@ -89,13 +100,15 @@ function populateScene() {
 		gltf.scene.children[12].material = granite.material;
 		gltf.scene.children[13].material = granite.material;
 
+		for (let i = 32; i < 44; i++) keypad.push(gltf.scene.children[i]);
+
 		for (let i = 17; i < 32; i++) {
 			gltf.scene.children[i].material = glass;
 			gltf.scene.children[i].receiveShadow = false;
 		}
 
 		scene.add(gltf.scene);
-		//console.log(gltf.scene.children);
+		console.log(gltf.scene.children);
 
 		// interactables.push(gltf.scene.children[4]);
 		interactables.push({object: gltf.scene.children[5], state: -1, opened: [0, -110, 0]});
