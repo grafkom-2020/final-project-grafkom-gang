@@ -148,6 +148,7 @@ function Player (_camera, _scene){
     }
     
     function onMouse1Click(){
+		win();
         if (raycasts[0] != null && raycasts[0].distance <= 2.5) {
             if (raycasts[0].object == scene.children[4].getObjectByName('Kabel_2') && player.items.includes('CableItem')) {
 				player.items.splice(player.items.indexOf('CableItem'), 1);
@@ -218,13 +219,21 @@ function Player (_camera, _scene){
 				}
 				if (raycasts[0].object == keypad[10]) passcode = passcode.substring(0, passcode.length - 1);
 				if (raycasts[0].object == keypad[11]) {
+					console.log('check win');
 					if (passcode === '6980') {
-						// WIN
+						win();
 					}
 					passcode = '';
 				}
 			}
 			scene.children[3].geometry = new THREE.TextGeometry(passcode, {font: font, size: 0.025, height: .051});
         }
-    }
+	}
+	
+	function win(){
+		console.log('win');
+		control.unlock();
+		instructions.style.display = 'none';
+		winpanel.style.display = 'inline';
+	}
 }

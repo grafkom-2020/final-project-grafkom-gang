@@ -39,7 +39,11 @@ initScene = function() {
 
 	instructions.addEventListener('click', function(){
 		player.control.lock();
-	},false);
+	}, false);
+
+	winpanel.addEventListener('click', function(){
+		window.location.reload();
+	});
 
 	player.control.addEventListener( 'lock', function () {
 
@@ -55,7 +59,7 @@ initScene = function() {
 		instructions.style.display = '';
 		overlay.style.display = 'none';
 
-	} );
+	});
 	
 	requestAnimationFrame( render );
 };
